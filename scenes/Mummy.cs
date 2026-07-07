@@ -12,7 +12,15 @@ public partial class Mummy : CharacterBody2D
 
 	public override void _Ready()
 	{
-		_animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		// Automatically link the screen exit event to our despawn logic
+		var notifier = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
+		notifier.ScreenExited += OnScreenExited;
+	}
+	
+	private void OnScreenExited()
+	{
+		// Destroy the mummy as soon as it is completely off the 800x800 screen
+		QueueFree();
 	}
 
 	public override void _PhysicsProcess(double delta)

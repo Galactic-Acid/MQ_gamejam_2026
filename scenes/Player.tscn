@@ -4,19 +4,22 @@
 [ext_resource type="Script" uid="uid://3q5ve1a3o2qn" path="res://scenes/Player.cs" id="1_v6fml"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ra2i3"]
+size = Vector2(8, 8)
 
 [node name="Player" type="CharacterBody2D" unique_id=466192200]
 collision_layer = 2
 script = ExtResource("1_v6fml")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=939444706]
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_p0vlq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1876532722]
+position = Vector2(7.1525574e-07, 0)
 scale = Vector2(6.5, 6.5)
 shape = SubResource("RectangleShape2D_ra2i3")
 
 [node name="Player" type="Node2D" parent="." unique_id=434087469]
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1974140992]
-position = Vector2(-9, 0)
+position = Vector2(-12, 0)
