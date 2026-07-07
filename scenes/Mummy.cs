@@ -12,12 +12,11 @@ public partial class Mummy : CharacterBody2D
 	private AnimatedSprite2D _deathSprite;
 	private bool _isDead = false;
 
-public override void _Ready()
+	public override void _Ready()
 	{
 		_animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		_deathSprite = GetNodeOrNull<AnimatedSprite2D>("DeathSprite");
 
-		// Force the death sprite to be invisible the moment the mummy spawns
 		if (_deathSprite != null)
 		{
 			_deathSprite.Hide();
@@ -37,7 +36,6 @@ public override void _Ready()
 
 	public override void _PhysicsProcess(double delta)
 	{
-		// Stop processing standard movement if the mummy is currently dying
 		if (_isDead) return;
 
 		Vector2 velocity = Velocity;
@@ -63,45 +61,44 @@ public override void _Ready()
 		}
 	}
 
-	public async void Die(int killerId)
+public async void Die(int killerId)
 	{
-		// Prevent the Die function from running twice if hit by two spears at the exact same time
 		if (_isDead) return;
 		_isDead = true;
-	
 		
-		// 1. Immediately trigger the GridManager so the UI feels responsive
-		var gridManager = GetTree().CurrentScene.GetNodeOrNull<GridManager>("HUD/GridBackground/SoulGrid");
-		if (gridManager != null)
-		{
-			gridManager.HandleMummyDeath(GlobalPosition, killerId);
-		}
-
-		// 2. Disable physical collision (so more spears don't hit it)
-		// Assuming your main collision node is named "CollisionShape2D"
 		var collision = GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
 		if (collision != null)
 		{
 			collision.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 		}
 
-		// 3. Swap the visual sprites
 		if (_animatedSprite != null) _animatedSprite.Hide();
 		
+		// 1. Lock in the exact pixel coordinates of the visual body, not the feet.
+		// If the death sprite doesn't exist, we fall back to the main GlobalPosition.
+// We take the feet's position and push it UP by a set amount of pixels.
+// Adjust the '-50f' up or down until it perfectly matches your mummy's chest height!
+Vector2 exactBodyPosition = GlobalPosition + new Vector2(0, 5f); //ghost pos offset to hit body mummy
 		if (_deathSprite != null)
 		{
 			_deathSprite.Show();
-			// Ensure it faces the correct way based on travel direction
 			_deathSprite.FlipH = MoveDirection == -1; 
-			
-			// Replace "default" with your actual death animation name if different
 			_deathSprite.Play("default"); 
-
-			// 4. Pause this specific method until the animation finishes
+			
 			await ToSignal(_deathSprite, AnimatedSprite2D.SignalName.AnimationFinished);
 		}
 
-		// 5. Finally delete the node
+		var gridManager = GetTree().CurrentScene.GetNodeOrNull<GridManager>("HUD/GridBackground/SoulGrid");
+		if (gridManager != null)
+		{
+			// 2. Pass the exact visual body position we captured earlier
+			gridManager.ProcessMummyDeath(exactBodyPosition, killerId);
+		}
+		else
+		{
+			GD.PrintErr("CRITICAL FAILURE: GridManager could not be found at path 'HUD/GridBackground/SoulGrid'.");
+		}
+
 		QueueFree(); 
 	}
 }

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ch28mhyqpoegd" path="res://scenes/Mummy.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://btw06luqftu77" path="res://scenes/GridManager.cs" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://bgud0csm4tw80" path="res://scenes/ScoreManager.cs" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://omrk6dplavho" path="res://scenes/MummyGhost.tscn" id="7_o6xl0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndbtp"]
 size = Vector2(1009.6875, 64)
@@ -99,6 +100,7 @@ theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 5
 columns = 6
 script = ExtResource("5_tbgi4")
+MummyGhostScene = ExtResource("7_o6xl0")
 
 [node name="Cell" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1572636215]
 layout_mode = 2

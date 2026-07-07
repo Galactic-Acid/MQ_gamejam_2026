@@ -4,21 +4,21 @@ using System.Collections.Generic;
 
 public partial class GridManager : GridContainer
 {
+	[Export] public PackedScene MummyGhostScene;
+	
 	private const int TotalColumns = 6;
 	private const int TotalRows = 5;
 	
-	// 0 = Empty, 1 = Player 1 (Red), 2 = Player 2 (Blue)
+	// 0 = Empty, 1 = Player 1 (Red), 2 = Player 2 (Blue), -1 = Reserved by incoming ghost
 	private int[,] _gridData = new int[TotalColumns, TotalRows];
 	private ColorRect[] _cells = new ColorRect[30];
 
-	// The base colour of your empty grid squares
 	private Color _emptyColour = new Color("000000"); 
 	private Color _player1Colour = new Color("ff4a4a");
 	private Color _player2Colour = new Color("4a90ff");
 
 	public override void _Ready()
 	{
-		// Cache all 30 ColorRect UI children on startup
 		for (int i = 0; i < GetChildCount(); i++)
 		{
 			_cells[i] = GetChild<ColorRect>(i);
@@ -26,9 +26,9 @@ public partial class GridManager : GridContainer
 		}
 	}
 
-	public void HandleMummyDeath(Vector2 deathPosition, int playerId)
+	public void ProcessMummyDeath(Vector2 deathPosition, int playerId)
 	{
-		// 1. Calculate which of the 6 columns the mummy died beneath
+		// 1. Calculate target column
 		float columnWidth = 800f / TotalColumns;
 		int targetColumn = Mathf.Clamp((int)(deathPosition.X / columnWidth), 0, TotalColumns - 1);
 
@@ -39,27 +39,66 @@ public partial class GridManager : GridContainer
 			if (_gridData[targetColumn, row] == 0)
 			{
 				targetRow = row;
-				break; // Found the highest empty slot
+				break; 
 			}
 		}
 
-		// Exit if the column is already completely full
 		if (targetRow == -1) return;
 
-		// 3. Register the placement in the matrix
-		_gridData[targetColumn, targetRow] = playerId;
+		// 3. Temporarily reserve the slot so concurrent ghosts don't overlap
+		_gridData[targetColumn, targetRow] = -1;
 
-		// 4. Update the visual UI cell
+		// 4. Calculate the exact visual center of the target UI cell
 		int cellIndex = (targetRow * TotalColumns) + targetColumn;
-		_cells[cellIndex].Color = (playerId == 1) ? _player1Colour : _player2Colour;
+		Vector2 targetVisualPosition = _cells[cellIndex].GlobalPosition + (_cells[cellIndex].Size / 2f);
 
-		// 5. Verify if this new placement created a line of 3 and pass the player ID
+		// 5. Spawn and animate the ghost
+		if (MummyGhostScene == null)
+		{
+			GD.PrintErr("CRITICAL: MummyGhostScene is not assigned in the Inspector!");
+			FinalizeGridFill(targetColumn, targetRow, playerId, cellIndex); // Fallback
+			return;
+		}
+
+		Node2D ghostInstance = MummyGhostScene.Instantiate<Node2D>();
+		
+		var collisionShape = ghostInstance.GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
+		if (collisionShape != null)
+		{
+			collisionShape.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		}
+
+		// 1. Add it directly to the GridManager (the UI) instead of the background world
+		AddChild(ghostInstance);
+
+		// 2. Set the position AFTER adding it to the tree to ensure UI coordinates align
+		ghostInstance.GlobalPosition = deathPosition;
+
+		// 3. Force the sorting order to be mathematically higher than the grid cells
+		ghostInstance.ZIndex = 100;
+
+		Tween tween = GetTree().CreateTween();
+		tween.TweenProperty(ghostInstance, "global_position", targetVisualPosition, 0.8f)
+			 .SetTrans(Tween.TransitionType.Sine)
+			 .SetEase(Tween.EaseType.InOut);
+
+		// 6. Finalise the matrix only when the animation completes
+		tween.Finished += () => 
+		{
+			ghostInstance.QueueFree();
+			FinalizeGridFill(targetColumn, targetRow, playerId, cellIndex);
+		};
+	}
+
+	private void FinalizeGridFill(int targetColumn, int targetRow, int playerId, int cellIndex)
+	{
+		_gridData[targetColumn, targetRow] = playerId;
+		_cells[cellIndex].Color = (playerId == 1) ? _player1Colour : _player2Colour;
 		CheckForMatches(playerId);
 	}
 
 	private void CheckForMatches(int playerId)
 	{
-		// We use a HashSet to store matched cells to handle overlapping lines cleanly
 		HashSet<(int col, int row)> cellsToClear = new HashSet<(int col, int row)>();
 
 		// Horizontal Scan (-)
@@ -68,7 +107,7 @@ public partial class GridManager : GridContainer
 			for (int col = 0; col < TotalColumns - 2; col++)
 			{
 				int id = _gridData[col, row];
-				if (id != 0 && id == _gridData[col + 1, row] && id == _gridData[col + 2, row])
+				if (id > 0 && id == _gridData[col + 1, row] && id == _gridData[col + 2, row])
 				{
 					cellsToClear.Add((col, row));
 					cellsToClear.Add((col + 1, row));
@@ -83,7 +122,7 @@ public partial class GridManager : GridContainer
 			for (int row = 0; row < TotalRows - 2; row++)
 			{
 				int id = _gridData[col, row];
-				if (id != 0 && id == _gridData[col, row + 1] && id == _gridData[col, row + 2])
+				if (id > 0 && id == _gridData[col, row + 1] && id == _gridData[col, row + 2])
 				{
 					cellsToClear.Add((col, row));
 					cellsToClear.Add((col, row + 1));
@@ -98,7 +137,7 @@ public partial class GridManager : GridContainer
 			for (int row = 0; row < TotalRows - 2; row++)
 			{
 				int id = _gridData[col, row];
-				if (id != 0 && id == _gridData[col + 1, row + 1] && id == _gridData[col + 2, row + 2])
+				if (id > 0 && id == _gridData[col + 1, row + 1] && id == _gridData[col + 2, row + 2])
 				{
 					cellsToClear.Add((col, row));
 					cellsToClear.Add((col + 1, row + 1));
@@ -113,7 +152,7 @@ public partial class GridManager : GridContainer
 			for (int row = 2; row < TotalRows; row++)
 			{
 				int id = _gridData[col, row];
-				if (id != 0 && id == _gridData[col + 1, row - 1] && id == _gridData[col + 2, row - 2])
+				if (id > 0 && id == _gridData[col + 1, row - 1] && id == _gridData[col + 2, row - 2])
 				{
 					cellsToClear.Add((col, row));
 					cellsToClear.Add((col + 1, row - 1));
@@ -122,17 +161,12 @@ public partial class GridManager : GridContainer
 			}
 		}
 
-		// Process clears and award points directly to the Scoreboard UI
 		if (cellsToClear.Count > 0)
 		{
-			// Note: If you renamed your class to 'Scoreboard' during the earlier bug fix, 
-			// change <ScoreManager> to <Scoreboard> here.
 			var scoreManager = GetTree().CurrentScene.GetNodeOrNull<ScoreManager>("HUD/Scoreboard");
 			
 			if (scoreManager != null)
 			{
-				// Dynamically calculate points: 100 points per cleared block
-				// 3 blocks = 300, 4 blocks = 400, 5 block T-shape = 500
 				int pointsToAward = cellsToClear.Count * 100;
 				scoreManager.AddScore(playerId, pointsToAward);
 			}
@@ -141,24 +175,20 @@ public partial class GridManager : GridContainer
 				GD.PrintErr($"CRITICAL: Could not find Scoreboard at path 'HUD/Scoreboard' to award points.");
 			}
 
-			// Clear the visual grid and matrix
 			TriggerMatchClear(cellsToClear);
 		}
 	}
 
 	private async void TriggerMatchClear(HashSet<(int col, int row)> matchedCells)
 	{
-		// 1. Instantly change the visual colour of the matched cells to pure white
 		foreach (var cell in matchedCells)
 		{
 			int cellIndex = (cell.row * TotalColumns) + cell.col;
 			_cells[cellIndex].Color = new Color("ffffff"); 
 		}
 
-		// 2. Tell this specific method to pause for 0.25 seconds
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
-		// 3. Once the timer finishes, clear the backend data and reset the visual colour
 		foreach (var cell in matchedCells)
 		{
 			_gridData[cell.col, cell.row] = 0;

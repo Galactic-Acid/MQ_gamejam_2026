@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://omrk6dplavho"]
+
+[ext_resource type="Script" uid="uid://bwrwminmyc7jc" path="res://scenes/Mummy.cs" id="1_1s5ac"]
+[ext_resource type="Texture2D" uid="uid://ba8xi5o0hs2yf" path="res://assets/Mummy Lord Sprite Sheet.png" id="2_qadiu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1s5ac"]
+atlas = ExtResource("2_qadiu")
+region = Rect2(192, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qadiu"]
+atlas = ExtResource("2_qadiu")
+region = Rect2(256, 322, 64, 63)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uvpvf"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.8,
+"texture": SubResource("AtlasTexture_1s5ac")
+}, {
+"duration": 1.8,
+"texture": SubResource("AtlasTexture_1s5ac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qadiu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qadiu")
+}],
+"loop": 2,
+"name": &"float",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_55o8t"]
+radius = 12.0
+height = 34.666668
+
+[node name="Mummy" type="CharacterBody2D" unique_id=2078396775]
+script = ExtResource("1_1s5ac")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1977376187]
+modulate = Color(0.20204858, 1.2495124, 1.1457541, 1)
+texture_filter = 2
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_uvpvf")
+animation = &"float"
+autoplay = "float"
+frame_progress = 0.52031046
+speed_scale = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1542820182]
+position = Vector2(-1, 27)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CapsuleShape2D_55o8t")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=433223221]
+position = Vector2(1, 17)
+rect = Rect2(-12, -9, 21, 39)
