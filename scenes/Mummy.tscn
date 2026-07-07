@@ -148,6 +148,7 @@ animations = [{
 }]
 
 [node name="Mummy" type="CharacterBody2D" unique_id=2078396775]
+position = Vector2(0, -47)
 script = ExtResource("1_55o8t")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1977376187]
@@ -159,13 +160,13 @@ frame = 4
 frame_progress = 0.56827945
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1542820182]
-position = Vector2(-2, 16)
+position = Vector2(-1, 12)
 scale = Vector2(1.5, 1.5)
 shape = SubResource("CapsuleShape2D_55o8t")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=433223221]
 position = Vector2(-1, 0)
-rect = Rect2(-18, -9, 35, 48)
+rect = Rect2(-12, -9, 21, 39)
 
 [node name="DeathSprite" type="AnimatedSprite2D" parent="." unique_id=944507250]
 scale = Vector2(1.5, 1.5)
