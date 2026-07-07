@@ -17,6 +17,13 @@ position = Vector2(0, 356)
 position = Vector2(576, 263.25)
 shape = SubResource("RectangleShape2D_ndbtp")
 
+[node name="MummyFloor" type="StaticBody2D" parent="." unique_id=962055922]
+position = Vector2(0, -498)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MummyFloor" unique_id=1669081397]
+position = Vector2(576, 263.25)
+shape = SubResource("RectangleShape2D_ndbtp")
+
 [node name="Player" parent="." unique_id=434087469 instance=ExtResource("1_o5qli")]
 position = Vector2(68, 165)
 SpearScene = ExtResource("2_0wfyh")
@@ -27,5 +34,5 @@ PlayerId = 2
 SpearScene = ExtResource("2_0wfyh")
 
 [node name="MummySpawner" parent="." unique_id=1908061454 instance=ExtResource("3_sugp2")]
-position = Vector2(5, -311)
+position = Vector2(1, -1005)
 MummyScene = ExtResource("4_jyhfs")
