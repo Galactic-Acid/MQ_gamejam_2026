@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bxs1l0ka2phng" path="res://scenes/MummySpawner.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ch28mhyqpoegd" path="res://scenes/Mummy.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://btw06luqftu77" path="res://scenes/GridManager.cs" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://bgud0csm4tw80" path="res://scenes/ScoreManager.cs" id="6_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndbtp"]
 size = Vector2(1009.6875, 64)
@@ -17,6 +18,8 @@ size = Vector2(57, 461)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ra2i3"]
 size = Vector2(57, 544.5)
+
+[sub_resource type="FontVariation" id="FontVariation_ra2i3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
 size = Vector2(1265.0313, 9)
@@ -274,6 +277,39 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0.22352941)
+
+[node name="Scoreboard" type="Control" parent="HUD" unique_id=255801451]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_tefeu")
+
+[node name="P1Score" type="Label" parent="HUD/Scoreboard" unique_id=1463139638]
+layout_mode = 1
+offset_left = 10.0
+offset_right = 437.0
+offset_bottom = 31.0
+theme_override_fonts/font = SubResource("FontVariation_ra2i3")
+theme_override_font_sizes/font_size = 22
+text = "Player 1: 0"
+
+[node name="P2Score" type="Label" parent="HUD/Scoreboard" unique_id=1824333522]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -287.0
+offset_top = -2.0
+offset_right = -8.0
+offset_bottom = 29.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 22
+text = "Player 2: 0"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="SpawnPoints" type="Node" parent="." unique_id=1379683136]
 

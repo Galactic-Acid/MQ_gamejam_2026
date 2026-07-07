@@ -11,7 +11,7 @@ public partial class GridManager : GridContainer
 	private int[,] _gridData = new int[TotalColumns, TotalRows];
 	private ColorRect[] _cells = new ColorRect[30];
 
-	// The base colour of your empty grid squares (adjust hex to match your UI)
+	// The base colour of your empty grid squares
 	private Color _emptyColour = new Color("000000"); 
 	private Color _player1Colour = new Color("ff4a4a");
 	private Color _player2Colour = new Color("4a90ff");
@@ -32,7 +32,7 @@ public partial class GridManager : GridContainer
 		float columnWidth = 800f / TotalColumns;
 		int targetColumn = Mathf.Clamp((int)(deathPosition.X / columnWidth), 0, TotalColumns - 1);
 
-		// 2. Find the topmost available row (Index 0 is the top of the screen)
+		// 2. Find the topmost available row
 		int targetRow = -1;
 		for (int row = 0; row < TotalRows; row++)
 		{
@@ -57,7 +57,6 @@ public partial class GridManager : GridContainer
 		CheckForMatches(playerId);
 	}
 
-	// Added playerId parameter to the signature
 	private void CheckForMatches(int playerId)
 	{
 		// We use a HashSet to store matched cells to handle overlapping lines cleanly
@@ -123,22 +122,23 @@ public partial class GridManager : GridContainer
 			}
 		}
 
-		// Process clears and award points
+		// Process clears and award points directly to the Scoreboard UI
 		if (cellsToClear.Count > 0)
 		{
-			// Bypass the root viewport tree and search the active CurrentScene directly
-			var playerNode = GetTree().CurrentScene.GetNodeOrNull<Player>($"Player{playerId}");
+			// Note: If you renamed your class to 'Scoreboard' during the earlier bug fix, 
+			// change <ScoreManager> to <Scoreboard> here.
+			var scoreManager = GetTree().CurrentScene.GetNodeOrNull<ScoreManager>("HUD/Scoreboard");
 			
-			if (playerNode != null)
+			if (scoreManager != null)
 			{
 				// Dynamically calculate points: 100 points per cleared block
 				// 3 blocks = 300, 4 blocks = 400, 5 block T-shape = 500
 				int pointsToAward = cellsToClear.Count * 100;
-				playerNode.AddScore(pointsToAward);
+				scoreManager.AddScore(playerId, pointsToAward);
 			}
 			else
 			{
-				GD.PrintErr($"CRITICAL: Could not find Player {playerId} at path 'Player{playerId}' to award points.");
+				GD.PrintErr($"CRITICAL: Could not find Scoreboard at path 'HUD/Scoreboard' to award points.");
 			}
 
 			// Clear the visual grid and matrix

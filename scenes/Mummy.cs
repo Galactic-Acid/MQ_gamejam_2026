@@ -68,7 +68,8 @@ public override void _Ready()
 		// Prevent the Die function from running twice if hit by two spears at the exact same time
 		if (_isDead) return;
 		_isDead = true;
-
+	
+		
 		// 1. Immediately trigger the GridManager so the UI feels responsive
 		var gridManager = GetTree().CurrentScene.GetNodeOrNull<GridManager>("HUD/GridBackground/SoulGrid");
 		if (gridManager != null)
