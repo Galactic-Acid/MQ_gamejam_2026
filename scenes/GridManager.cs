@@ -13,9 +13,9 @@ public partial class GridManager : GridContainer
 	private int[,] _gridData = new int[TotalColumns, TotalRows];
 	private ColorRect[] _cells = new ColorRect[30];
 
-	private Color _emptyColour = new Color("000000"); 
-	private Color _player1Colour = new Color("ff4a4a");
-	private Color _player2Colour = new Color("4a90ff");
+	private Color _emptyColour = new Color("535252c7"); 
+	private Color _player1Colour = new Color("be001ca0");
+	private Color _player2Colour = new Color("00419aa0");
 
 	public override void _Ready()
 	{
