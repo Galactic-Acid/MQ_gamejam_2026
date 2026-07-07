@@ -24,10 +24,12 @@ public partial class ScoreManager : Godot.Control
 		if (playerNumber == 1)
 		{
 			_p1Score += points;
+			_p1Score = Mathf.Max(0, _p1Score);
 		}
 		else if (playerNumber == 2)
 		{
 			_p2Score += points;
+			_p2Score = Mathf.Max(0, _p2Score); //>0
 		}
 
 		UpdateScoreUI();

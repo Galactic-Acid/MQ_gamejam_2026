@@ -7,13 +7,11 @@ public partial class Player : CharacterBody2D
 	[Export] public float Speed = 300.0f;
 	[Export] public PackedScene SpearScene;
 	
-	
-	// Connect 4 score and penalty variables
-	public int Score { get; set; } = 0; 
+	// The amount of points to deduct when struck by a spear
 	[Export] public int PenaltyAmount = 100; 
 	
 	// Cooldown variables
-	[Export] public float SpearCooldown = 1.0f; // 2 second cooldown
+	[Export] public float SpearCooldown = 1.0f; // 1 second cooldown
 	private ulong _lastThrowTime = 0;
 
 	public float Gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -75,7 +73,7 @@ public partial class Player : CharacterBody2D
 		// Only process the throw if a valid key was pressed
 		if (isShootUp || isShootHorizontal)
 		{
-			// Check if the 2-second cooldown has elapsed
+			// Check if the cooldown has elapsed
 			ulong currentTime = Time.GetTicksMsec();
 			if (currentTime - _lastThrowTime < SpearCooldown * 1000)
 			{
@@ -116,25 +114,26 @@ public partial class Player : CharacterBody2D
 		{
 			spearInstance.RotationDegrees = 0; 
 		}
+		
 		GetTree().CurrentScene.AddChild(spearInstance);
 		spearInstance.GlobalPosition = GetNode<Marker2D>("ProjectileSpawn").GlobalPosition;
 	}
 
 	public void HandleHit(int scoringPlayerId)
 	{
-		Score -= PenaltyAmount;
+		// 1. Locate the Scoreboard in the current scene
+		var scoreManager = GetTree().CurrentScene.GetNodeOrNull<ScoreManager>("HUD/Scoreboard");
 		
-		if (Score < 0) 
+		if (scoreManager != null)
 		{
-			Score = 0;
+			// 2. Pass a negative integer to deduct points from THIS player
+			scoreManager.AddScore(PlayerId, -PenaltyAmount);
+			
+			GD.Print($"Impact! Player {PlayerId} was hit by Player {scoringPlayerId}. Deducted {PenaltyAmount} points.");
 		}
-
-		GD.Print($"Impact! Player {PlayerId} was hit by Player {scoringPlayerId}. Lost {PenaltyAmount} points. Current Score: {Score}");
-	}
-	
-	public void AddScore(int pointsToAdd)
-	{
-		Score += pointsToAdd;
-		GD.Print($"3 tile Matches! Player {PlayerId} gained {pointsToAdd} points. Current Score: {Score}");
+		else
+		{
+			GD.PrintErr("CRITICAL: Could not find Scoreboard at path 'HUD/Scoreboard' to deduct points.");
+		}
 	}
 }
