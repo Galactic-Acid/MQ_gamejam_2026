@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cioc05ivuhh4e"]
+
+[ext_resource type="Script" uid="uid://duwqdq3y71cv8" path="res://scenes/Spear.cs" id="1_6uygw"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_y1t4k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ra2i3"]
+
+[node name="Spear" type="Area2D" unique_id=1871278874]
+collision_mask = 3
+script = ExtResource("1_6uygw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1991092281]
+scale = Vector2(0.8, 0.1)
+texture = ExtResource("1_y1t4k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=843324593]
+scale = Vector2(5.15, 0.65)
+shape = SubResource("RectangleShape2D_ra2i3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=156131643]

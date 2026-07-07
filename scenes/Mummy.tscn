@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://ch28mhyqpoegd"]
+
+[ext_resource type="Script" uid="uid://bwrwminmyc7jc" path="res://scenes/Mummy.cs" id="1_55o8t"]
+[ext_resource type="Texture2D" uid="uid://ba8xi5o0hs2yf" path="res://assets/Mummy Lord Sprite Sheet.png" id="1_xls3a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xls3a"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(0, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55o8t"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(64, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c82t2"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(128, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4cld"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(192, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrbd2"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(256, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhvg5"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(320, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iy74t"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(384, 70, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6y18a"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(448, 70, 64, 63)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uvpvf"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xls3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55o8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c82t2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4cld")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrbd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhvg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iy74t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6y18a")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_55o8t"]
+radius = 15.0
+height = 34.0
+
+[node name="Mummy" type="CharacterBody2D" unique_id=2078396775]
+script = ExtResource("1_55o8t")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1977376187]
+sprite_frames = SubResource("SpriteFrames_uvpvf")
+animation = &"walk"
+autoplay = "walk"
+frame = 4
+frame_progress = 0.56827945
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1542820182]
+position = Vector2(-1, 11)
+shape = SubResource("CapsuleShape2D_55o8t")
