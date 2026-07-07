@@ -45,11 +45,13 @@ position = Vector2(484.14063, 143.75)
 shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="Player1" parent="." unique_id=434087469 instance=ExtResource("1_o5qli")]
-position = Vector2(68, 347)
+position = Vector2(68, 339)
+scale = Vector2(1.5, 1.5)
 SpearScene = ExtResource("2_0wfyh")
 
 [node name="Player2" parent="." unique_id=194459602 instance=ExtResource("1_o5qli")]
-position = Vector2(731, 347)
+position = Vector2(731, 339)
+scale = Vector2(1.5, 1.5)
 PlayerId = 2
 SpearScene = ExtResource("2_0wfyh")
 
