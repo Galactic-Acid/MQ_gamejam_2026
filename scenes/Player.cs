@@ -23,13 +23,21 @@ public partial class Player : CharacterBody2D
 
 	private AnimatedSprite2D _animatedSprite;
 
-	public override void _Ready()
+public override void _Ready()
 	{
 		_animatedSprite = GetNodeOrNull<AnimatedSprite2D>("Sprite2D");
 		
 		if (_animatedSprite == null)
 		{
 			GD.PrintErr("CRITICAL: AnimatedSprite2D not found. Check that the node is named 'Sprite2D' in the Scene Tree.");
+		}
+
+		// Cache the indicator and apply the correct team colour
+		Polygon2D indicator = GetNodeOrNull<Polygon2D>("PlayerIndicator");
+		if (indicator != null)
+		{
+			// Hex codes matched to your GridManager colours
+			indicator.Color = (PlayerId == 1) ? new Color("ff4a4a") : new Color("4a90ff");
 		}
 	}
 
