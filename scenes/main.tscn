@@ -87,7 +87,7 @@ offset_top = 81.0
 offset_bottom = -479.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.96828777, 0.8202319, 0, 0.24705882)
+color = Color(0.058590494, 0.9623417, 0.7974556, 0.24705882)
 
 [node name="SoulGrid" type="GridContainer" parent="HUD/GridBackground" unique_id=1210818644]
 layout_mode = 1
