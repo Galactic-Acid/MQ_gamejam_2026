@@ -131,8 +131,10 @@ public partial class GridManager : GridContainer
 			
 			if (playerNode != null)
 			{
-				// Award exactly 300 points
-				playerNode.AddScore(300);
+				// Dynamically calculate points: 100 points per cleared block
+				// 3 blocks = 300, 4 blocks = 400, 5 block T-shape = 500
+				int pointsToAward = cellsToClear.Count * 100;
+				playerNode.AddScore(pointsToAward);
 			}
 			else
 			{
