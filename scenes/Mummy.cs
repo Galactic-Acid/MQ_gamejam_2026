@@ -12,9 +12,15 @@ public partial class Mummy : CharacterBody2D
 
 	public override void _Ready()
 	{
+		// Fetch animated sprite reference if available
+		_animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+
 		// Automatically link the screen exit event to our despawn logic
 		var notifier = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
-		notifier.ScreenExited += OnScreenExited;
+		if (notifier != null)
+		{
+			notifier.ScreenExited += OnScreenExited;
+		}
 	}
 	
 	private void OnScreenExited()
@@ -48,9 +54,23 @@ public partial class Mummy : CharacterBody2D
 		}
 	}
 
-	public void HandleHit(int scoringPlayerId)
+	public void Die(int killerId)
 	{
-		GD.Print($"Mummy killed! Player {scoringPlayerId} gets a point.");
+		// 1. Locate the GridManager using the relative path from the root
+		// Adjust this path if your scene hierarchy structure changes!
+		var gridManager = GetTree().Root.GetNodeOrNull<GridManager>("Main/HUD/GridBackground/SoulGrid");
+		
+		if (gridManager != null)
+		{
+			// 2. Send the physical position and killer ID straight to the grid system
+			gridManager.HandleMummyDeath(GlobalPosition, killerId);
+		}
+		else
+		{
+			GD.PrintErr("CRITICAL: GridManager node not found! Verify node path in Mummy.cs.");
+		}
+
+		// 3. Clean up the mummy node from the scene tree
 		QueueFree(); 
 	}
 }

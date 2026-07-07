@@ -7,10 +7,11 @@ public partial class Player : CharacterBody2D
 	[Export] public float Speed = 300.0f;
 	[Export] public PackedScene SpearScene;
 	
+	
 	// Connect 4 score and penalty variables
-	public int Score { get; set; } = 1000; 
-	[Export] public int PenaltyAmount = 200; 
-
+	public int Score { get; set; } = 0; 
+	[Export] public int PenaltyAmount = 100; 
+	
 	// Cooldown variables
 	[Export] public float SpearCooldown = 1.0f; // 2 second cooldown
 	private ulong _lastThrowTime = 0;

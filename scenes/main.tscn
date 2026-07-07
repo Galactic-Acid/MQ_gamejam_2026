@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cioc05ivuhh4e" path="res://scenes/Spear.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bxs1l0ka2phng" path="res://scenes/MummySpawner.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ch28mhyqpoegd" path="res://scenes/Mummy.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://btw06luqftu77" path="res://scenes/GridManager.cs" id="5_tbgi4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndbtp"]
 size = Vector2(1265.375, 64)
@@ -11,8 +12,11 @@ size = Vector2(1265.375, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(1213.0625, 64)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(57, 444)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ra2i3"]
-size = Vector2(57, 717)
+size = Vector2(57, 601.5)
 
 [node name="Main" type="Node2D" unique_id=985089339]
 position = Vector2(0, 356)
@@ -21,40 +25,244 @@ position = Vector2(0, 356)
 position = Vector2(0, 476)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1625961642]
-position = Vector2(308.6875, -61)
+position = Vector2(313, -65)
 shape = SubResource("RectangleShape2D_ndbtp")
 
 [node name="MummyFloor" type="StaticBody2D" parent="." unique_id=962055922]
-position = Vector2(0, -498)
+position = Vector2(0, -103)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MummyFloor" unique_id=1669081397]
-position = Vector2(331.53125, 304)
+position = Vector2(331.53125, 189)
 shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="Player" parent="." unique_id=434087469 instance=ExtResource("1_o5qli")]
-position = Vector2(68, 313)
+position = Vector2(68, 347)
 SpearScene = ExtResource("2_0wfyh")
 
 [node name="Player2" parent="." unique_id=194459602 instance=ExtResource("1_o5qli")]
-position = Vector2(731, 313)
+position = Vector2(731, 347)
 PlayerId = 2
 SpearScene = ExtResource("2_0wfyh")
 
 [node name="MummySpawner" parent="." unique_id=1908061454 instance=ExtResource("3_sugp2")]
-position = Vector2(-161, -998)
+position = Vector2(-182, -336)
 MummyScene = ExtResource("4_jyhfs")
 
 [node name="LeftWall" type="StaticBody2D" parent="." unique_id=1336299219]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1608524770]
-position = Vector2(-28, 351.5)
-shape = SubResource("RectangleShape2D_ra2i3")
+position = Vector2(-28, 488)
+shape = SubResource("RectangleShape2D_tbgi4")
 
 [node name="RightWall" type="StaticBody2D" parent="LeftWall/CollisionShape2D" unique_id=2136763682]
 position = Vector2(887, -350.5)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall/CollisionShape2D/RightWall" unique_id=208414452]
-position = Vector2(-28, 351.5)
+position = Vector2(-28, 409.25)
 shape = SubResource("RectangleShape2D_ra2i3")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=926186421]
+
+[node name="GridBackground" type="ColorRect" parent="HUD" unique_id=1614275609]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 81.0
+offset_bottom = -479.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.21085459, 0.9553917, 0.7949673, 0.24705882)
+
+[node name="SoulGrid" type="GridContainer" parent="HUD/GridBackground" unique_id=1210818644]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 6
+script = ExtResource("5_tbgi4")
+
+[node name="Cell" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1572636215]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell2" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1023128606]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell3" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=883307878]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell4" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=495075820]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell5" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1910722253]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell6" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=659657668]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell7" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1392228947]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell8" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1663426736]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell9" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=187600069]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell10" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1098598914]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell11" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=637837784]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell12" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=392149893]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell13" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=796854904]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell14" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1939806066]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell15" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=537759938]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell16" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=524291596]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell17" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1881304101]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell18" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1190694576]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell19" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=65435998]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell20" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=532831487]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell21" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=233811538]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell22" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=531865323]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell23" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=109611260]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell24" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=13902340]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell25" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1974744454]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell26" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1351996228]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell27" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1467527230]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell28" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=504141073]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell29" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=925991330]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)
+
+[node name="Cell30" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1420214812]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0.22352941)

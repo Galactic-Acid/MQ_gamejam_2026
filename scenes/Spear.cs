@@ -31,7 +31,8 @@ public partial class Spear : Area2D
 		// 1. Check if the spear hits a Mummy
 		if (body is Mummy mummyTarget)
 		{
-			mummyTarget.HandleHit(PlayerId);
+			// Updated to match the new method name in Mummy.cs
+			mummyTarget.Die(PlayerId);
 			QueueFree(); 
 			return;
 		}
