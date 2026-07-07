@@ -10,13 +10,19 @@
 size = Vector2(1265.375, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
-size = Vector2(1213.0625, 64)
+size = Vector2(1154.5625, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
-size = Vector2(57, 444)
+size = Vector2(57, 420)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ra2i3"]
-size = Vector2(57, 601.5)
+size = Vector2(57, 544.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tefeu"]
+size = Vector2(1332.0625, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
+size = Vector2(1514.0625, 4)
 
 [node name="Main" type="Node2D" unique_id=985089339]
 position = Vector2(0, 356)
@@ -32,7 +38,7 @@ shape = SubResource("RectangleShape2D_ndbtp")
 position = Vector2(0, -103)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MummyFloor" unique_id=1669081397]
-position = Vector2(331.53125, 189)
+position = Vector2(489, 161)
 shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="Player1" parent="." unique_id=434087469 instance=ExtResource("1_o5qli")]
@@ -44,15 +50,17 @@ position = Vector2(731, 347)
 PlayerId = 2
 SpearScene = ExtResource("2_0wfyh")
 
-[node name="MummySpawner" parent="." unique_id=1908061454 instance=ExtResource("3_sugp2")]
-position = Vector2(-182, -336)
+[node name="MummySpawner" parent="." unique_id=1908061454 node_paths=PackedStringArray("SpawnPointsParent") instance=ExtResource("3_sugp2")]
+position = Vector2(-258, -247)
 MummyScene = ExtResource("4_jyhfs")
+SpawnPointsParent = NodePath("../SpawnPoints")
+SpawnInterval = 0.1
 
 [node name="LeftWall" type="StaticBody2D" parent="." unique_id=1336299219]
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1608524770]
-position = Vector2(-28, 488)
+position = Vector2(-28, 500)
 shape = SubResource("RectangleShape2D_tbgi4")
 
 [node name="RightWall" type="StaticBody2D" parent="LeftWall/CollisionShape2D" unique_id=2136763682]
@@ -60,7 +68,7 @@ position = Vector2(887, -350.5)
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall/CollisionShape2D/RightWall" unique_id=208414452]
-position = Vector2(-28, 409.25)
+position = Vector2(-28, 437.75)
 shape = SubResource("RectangleShape2D_ra2i3")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=926186421]
@@ -266,3 +274,28 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(1, 1, 1, 0.22352941)
+
+[node name="SpawnPoints" type="Node" parent="." unique_id=1379683136]
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPoints" unique_id=1917427366]
+position = Vector2(-45, 9)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPoints" unique_id=634158178]
+position = Vector2(-295, 192)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPoints" unique_id=2076091086]
+position = Vector2(-558, 352)
+
+[node name="MummyFloor2" type="StaticBody2D" parent="." unique_id=446684737]
+position = Vector2(0, -206)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MummyFloor2" unique_id=128593825]
+position = Vector2(331.53125, 358)
+shape = SubResource("RectangleShape2D_tefeu")
+
+[node name="MummyFloor3" type="StaticBody2D" parent="." unique_id=1165114017]
+position = Vector2(0, -206)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MummyFloor3" unique_id=685575473]
+position = Vector2(181.03125, 453)
+shape = SubResource("RectangleShape2D_o6xl0")

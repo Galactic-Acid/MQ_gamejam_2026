@@ -76,6 +76,77 @@ animations = [{
 radius = 13.333334
 height = 38.666668
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_busc0"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(0, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cymjf"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(64, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flw4w"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(128, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0k43i"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(192, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d64hd"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(256, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wh0vd"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(320, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_un8xv"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(384, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42ha8"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(448, 322, 64, 63)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvptr"]
+atlas = ExtResource("1_xls3a")
+region = Rect2(512, 322, 64, 63)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ra2i3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_busc0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cymjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_flw4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0k43i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d64hd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wh0vd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_un8xv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42ha8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvptr")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Mummy" type="CharacterBody2D" unique_id=2078396775]
 script = ExtResource("1_55o8t")
 
@@ -95,3 +166,10 @@ shape = SubResource("CapsuleShape2D_55o8t")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=433223221]
 position = Vector2(-1, 0)
 rect = Rect2(-18, -9, 35, 48)
+
+[node name="DeathSprite" type="AnimatedSprite2D" parent="." unique_id=944507250]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_ra2i3")
+frame = 8
+frame_progress = 1.0
+speed_scale = 2.5

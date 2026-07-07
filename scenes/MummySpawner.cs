@@ -1,32 +1,46 @@
 using Godot;
 using System;
 
-public partial class MummySpawner : Node2D
+// 1. Explicitly define Godot.Node to fix the InvalidCastException
+public partial class MummySpawner : Godot.Node
 {
 	[Export] public PackedScene MummyScene;
-	[Export] public int SpawnDirection = 1; // 1 makes them run Right, -1 makes them run Left
-
-	private Timer _timer;
-
+	
+	// 2. Explicitly define Godot.Node here as well
+	[Export] public Godot.Node SpawnPointsParent; 
+	
+	[Export] public float SpawnInterval = 2.0f; 
+	
 	public override void _Ready()
 	{
-		_timer = GetNode<Timer>("Timer");
-		_timer.Timeout += OnTimerTimeout;
+		// 3. Generate the timer in code to fix the "Node not found" crash
+		Timer spawnTimer = new Timer();
+		spawnTimer.WaitTime = SpawnInterval;
+		spawnTimer.Autostart = true;
+		spawnTimer.Timeout += SpawnMummy;
+		AddChild(spawnTimer);
 	}
 
-	private void OnTimerTimeout()
+	public void SpawnMummy()
 	{
-		// Stop if no mummy blueprint is linked in the inspector
-		if (MummyScene == null) return;
+		if (SpawnPointsParent == null || SpawnPointsParent.GetChildCount() == 0)
+		{
+			GD.PrintErr("CRITICAL: Spawn points missing. Assign the SpawnPoints parent node.");
+			return;
+		}
 
-		// Create a fresh instance of the mummy
-		Mummy mummyInstance = MummyScene.Instantiate<Mummy>();
+		var spawnPoints = SpawnPointsParent.GetChildren();
+		int randomIndex = GD.RandRange(0, spawnPoints.Count - 1);
 		
-		// Drop it at the exact location of this spawner node
-		mummyInstance.GlobalPosition = this.GlobalPosition;
-		mummyInstance.MoveDirection = this.SpawnDirection;
+		// 4. Cast strictly to Godot.Node2D
+		var chosenSpawn = spawnPoints[randomIndex] as Godot.Node2D;
 
-		// Add the mummy to the main game arena
-		GetParent().AddChild(mummyInstance);
+		if (chosenSpawn != null)
+		{
+			Mummy newMummy = MummyScene.Instantiate<Mummy>();
+			newMummy.GlobalPosition = chosenSpawn.GlobalPosition;
+			
+			GetTree().CurrentScene.AddChild(newMummy);
+		}
 	}
 }

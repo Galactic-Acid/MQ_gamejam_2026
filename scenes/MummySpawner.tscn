@@ -4,7 +4,3 @@
 
 [node name="MummySpawner" type="Node2D" unique_id=1908061454]
 script = ExtResource("1_2myjm")
-
-[node name="Timer" type="Timer" parent="." unique_id=1963069447]
-wait_time = 4.0
-autostart = true
