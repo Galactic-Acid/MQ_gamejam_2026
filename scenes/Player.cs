@@ -131,4 +131,10 @@ public partial class Player : CharacterBody2D
 
 		GD.Print($"Impact! Player {PlayerId} was hit by Player {scoringPlayerId}. Lost {PenaltyAmount} points. Current Score: {Score}");
 	}
+	
+	public void AddScore(int pointsToAdd)
+	{
+		Score += pointsToAdd;
+		GD.Print($"3 tile Matches! Player {PlayerId} gained {pointsToAdd} points. Current Score: {Score}");
+	}
 }

@@ -53,11 +53,12 @@ public partial class GridManager : GridContainer
 		int cellIndex = (targetRow * TotalColumns) + targetColumn;
 		_cells[cellIndex].Color = (playerId == 1) ? _player1Colour : _player2Colour;
 
-		// 5. Verify if this new placement created a line of 3
-		CheckForMatches();
+		// 5. Verify if this new placement created a line of 3 and pass the player ID
+		CheckForMatches(playerId);
 	}
 
-	private void CheckForMatches()
+	// Added playerId parameter to the signature
+	private void CheckForMatches(int playerId)
 	{
 		// We use a HashSet to store matched cells to handle overlapping lines cleanly
 		HashSet<(int col, int row)> cellsToClear = new HashSet<(int col, int row)>();
@@ -122,32 +123,46 @@ public partial class GridManager : GridContainer
 			}
 		}
 
-		// Process clears if any matches were detected
+		// Process clears and award points
 		if (cellsToClear.Count > 0)
 		{
+			// Bypass the root viewport tree and search the active CurrentScene directly
+			var playerNode = GetTree().CurrentScene.GetNodeOrNull<Player>($"Player{playerId}");
+			
+			if (playerNode != null)
+			{
+				// Award exactly 300 points
+				playerNode.AddScore(300);
+			}
+			else
+			{
+				GD.PrintErr($"CRITICAL: Could not find Player {playerId} at path 'Player{playerId}' to award points.");
+			}
+
+			// Clear the visual grid and matrix
 			TriggerMatchClear(cellsToClear);
 		}
 	}
 
-private async void TriggerMatchClear(HashSet<(int col, int row)> matchedCells)
-{
-	// 1. Instantly change the visual colour of the matched cells to pure white
-	foreach (var cell in matchedCells)
+	private async void TriggerMatchClear(HashSet<(int col, int row)> matchedCells)
 	{
-		int cellIndex = (cell.row * TotalColumns) + cell.col;
-		_cells[cellIndex].Color = new Color("ffffff"); 
-	}
+		// 1. Instantly change the visual colour of the matched cells to pure white
+		foreach (var cell in matchedCells)
+		{
+			int cellIndex = (cell.row * TotalColumns) + cell.col;
+			_cells[cellIndex].Color = new Color("ffffff"); 
+		}
 
-	// 2. Tell this specific method to pause for 0.25 seconds
-	await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+		// 2. Tell this specific method to pause for 0.25 seconds
+		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
-	// 3. Once the timer finishes, clear the backend data and reset the visual colour
-	foreach (var cell in matchedCells)
-	{
-		_gridData[cell.col, cell.row] = 0;
-		
-		int cellIndex = (cell.row * TotalColumns) + cell.col;
-		_cells[cellIndex].Color = _emptyColour;
+		// 3. Once the timer finishes, clear the backend data and reset the visual colour
+		foreach (var cell in matchedCells)
+		{
+			_gridData[cell.col, cell.row] = 0;
+			
+			int cellIndex = (cell.row * TotalColumns) + cell.col;
+			_cells[cellIndex].Color = _emptyColour;
+		}
 	}
-}
 }
