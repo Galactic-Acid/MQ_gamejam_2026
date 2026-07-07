@@ -338,6 +338,7 @@ stretch_mode = 0
 
 [node name="InfoPopup" type="Panel" parent="HUD" unique_id=1995888131]
 process_mode = 3
+visible = false
 custom_minimum_size = Vector2(600, 630)
 anchors_preset = 8
 anchor_left = 0.5
@@ -439,3 +440,70 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_choun")
 expand_mode = 1
+
+[node name="EndScreenLayer" type="CanvasLayer" parent="." unique_id=1289745589]
+layer = 10
+
+[node name="Panel" type="Panel" parent="EndScreenLayer" unique_id=523529466]
+custom_minimum_size = Vector2(650, 450)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -225.0
+offset_right = 300.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndScreenLayer/Panel" unique_id=974206122]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=37053888]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "GAME OVER"
+
+[node name="Reason" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=1116644876]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 19
+text = "
+The souls broke free :("
+
+[node name="ScoreBreakdown" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=1869119227]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="WinnerText" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=325319733]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+text = "
+
+
+
+
+
+
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ReplayButton" type="Button" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=872533909]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Replay Game
+"
