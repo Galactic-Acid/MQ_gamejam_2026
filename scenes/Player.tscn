@@ -365,3 +365,6 @@ position = Vector2(-6, 5)
 
 [node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1974140992]
 position = Vector2(5, 4)
+
+[node name="PlayerIndicator" type="Polygon2D" parent="." unique_id=582475007]
+polygon = PackedVector2Array(0, -19, 5, -28, -6, -28)

@@ -9,6 +9,10 @@ public partial class ScoreManager : Godot.Control
 	private int _p1Score = 0;
 	private int _p2Score = 0;
 
+public int Player1Score => _p1Score;
+public int Player2Score => _p2Score;
+
+
 	public override void _Ready()
 	{
 		// Locate the label nodes inside the UI tree

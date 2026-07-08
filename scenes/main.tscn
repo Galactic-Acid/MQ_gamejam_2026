@@ -4,8 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://cioc05ivuhh4e" path="res://scenes/Spear.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bxs1l0ka2phng" path="res://scenes/MummySpawner.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ch28mhyqpoegd" path="res://scenes/Mummy.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://d1wot6pfgrqh" path="res://scenes/InfoManager.cs" id="5_85g3d"]
 [ext_resource type="Script" uid="uid://btw06luqftu77" path="res://scenes/GridManager.cs" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://bgud0csm4tw80" path="res://scenes/ScoreManager.cs" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://omrk6dplavho" path="res://scenes/MummyGhost.tscn" id="7_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://cs24ix5c5k3m2" path="res://assets/infoicon.png" id="8_tipki"]
+[ext_resource type="Texture2D" uid="uid://0x2njllpk61o" path="res://assets/nightSand.png" id="10_choun"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndbtp"]
 size = Vector2(1009.6875, 64)
@@ -77,6 +81,8 @@ position = Vector2(-28, 437.75)
 shape = SubResource("RectangleShape2D_ra2i3")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=926186421]
+process_mode = 3
+script = ExtResource("5_85g3d")
 
 [node name="GridBackground" type="ColorRect" parent="HUD" unique_id=1614275609]
 anchors_preset = 15
@@ -86,7 +92,7 @@ offset_top = 81.0
 offset_bottom = -479.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.96828777, 0.8202319, 0, 0.24705882)
+color = Color(0.41568628, 0.25882354, 0.20392157, 0.78039217)
 
 [node name="SoulGrid" type="GridContainer" parent="HUD/GridBackground" unique_id=1210818644]
 layout_mode = 1
@@ -99,6 +105,7 @@ theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 5
 columns = 6
 script = ExtResource("5_tbgi4")
+MummyGhostScene = ExtResource("7_o6xl0")
 
 [node name="Cell" type="ColorRect" parent="HUD/GridBackground/SoulGrid" unique_id=1572636215]
 layout_mode = 2
@@ -313,6 +320,84 @@ text = "Player 2: 0"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="InfoButton" type="TextureButton" parent="HUD" unique_id=175538894]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -47.0
+offset_right = -7.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("8_tipki")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="InfoPopup" type="Panel" parent="HUD" unique_id=1995888131]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(600, 630)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/InfoPopup" unique_id=1937267899]
+layout_mode = 0
+offset_left = 5.0
+offset_top = -5.0
+offset_right = 605.0
+offset_bottom = 399.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/InfoPopup/MarginContainer" unique_id=1141281348]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="HUD/InfoPopup/MarginContainer/VBoxContainer" unique_id=1153808834]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "MQ Game Jam 2026 (REANIMATE):
+Dual Hunt - Instructions"
+horizontal_alignment = 1
+
+[node name="ControlsLabel" type="Label" parent="HUD/InfoPopup/MarginContainer/VBoxContainer" unique_id=394058747]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Objective: Defend your ground against the oncoming mummy horde!  When a mummy is defeated, its soul ascends as a ghost into the grid container directly above it.
+
+Your goal is to strategically eliminate mummies to drop their 
+ascending souls into columns, creating matching lines of three or more identical cells (horizontally, vertically, or diagonally). 
+Match the cells to clear the grid and score points! 
+But beware of your friend, they may just betray you....
+
+               Note: 100 Points Per Soul (After 3 or more matches)
+Controls:
+- W/UP = Shoot Up (at Mummies)
+- A/LEFT = Move Left
+- D/RIGHT = Move Right
+- S/DOWN =  Block Attack (From other Player)
+- SPACE/ENTER =  Shoot Forward (At other Player; deducts 100 points from them)"
+autowrap_mode = 2
+
+[node name="CloseButton" type="Button" parent="HUD/InfoPopup/MarginContainer/VBoxContainer" unique_id=1900565947]
+layout_mode = 2
+text = "Close Instructions"
+
 [node name="SpawnPoints" type="Node" parent="." unique_id=1379683136]
 
 [node name="Marker2D" type="Marker2D" parent="SpawnPoints" unique_id=1917427366]
@@ -337,3 +422,88 @@ position = Vector2(0, -206)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MummyFloor3" unique_id=685575473]
 position = Vector2(230.03125, 446.5)
 shape = SubResource("RectangleShape2D_o6xl0")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=2045273524]
+layer = -10
+
+[node name="Background" type="TextureRect" parent="BackgroundLayer" unique_id=1918919685]
+modulate = Color(0.6644421, 0.6644421, 0.6644421, 1)
+texture_filter = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -292.0
+offset_right = 102.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_choun")
+expand_mode = 1
+
+[node name="EndScreenLayer" type="CanvasLayer" parent="." unique_id=1289745589]
+layer = 10
+
+[node name="Panel" type="Panel" parent="EndScreenLayer" unique_id=523529466]
+custom_minimum_size = Vector2(650, 450)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -225.0
+offset_right = 300.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndScreenLayer/Panel" unique_id=974206122]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=37053888]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "GAME OVER"
+
+[node name="Reason" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=1116644876]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 19
+text = "
+The souls broke free :("
+
+[node name="ScoreBreakdown" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=1869119227]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="WinnerText" type="Label" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=325319733]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+text = "
+
+
+
+
+
+
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ReplayButton" type="Button" parent="EndScreenLayer/Panel/VBoxContainer" unique_id=872533909]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Replay Game
+"
