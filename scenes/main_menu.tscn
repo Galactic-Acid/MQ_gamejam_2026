@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://2yvq6yiiep7y"]
+
+[ext_resource type="Texture2D" uid="uid://e1th8la38ikw" path="res://assets/mainMenu.png" id="1_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://bayqn63uer3uc" path="res://assets/BUTTON.PNG" id="2_bqqt6"]
+
+[node name="MainMenu" type="Control" unique_id=439725802]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=348766056]
+layout_mode = 0
+offset_left = -1434.0
+offset_top = -619.0
+offset_right = 1323.0
+offset_bottom = 896.0
+texture = ExtResource("1_ekxnf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=537170212]
+layout_mode = 0
+offset_left = -288.0
+offset_top = -382.0
+offset_right = 261.0
+offset_bottom = -173.0
+texture_normal = ExtResource("2_bqqt6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="TextureButton" unique_id=58077514]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.26700002
+anchor_bottom = 0.21000001
+offset_left = 138.0
+offset_top = 72.0
+offset_right = 353.417
+offset_bottom = 105.11
+theme_override_font_sizes/font_size = 43
+text = "START GAME"
+
+[node name="TextureButton2" type="TextureButton" parent="." unique_id=751090425]
+layout_mode = 0
+offset_left = -285.0
+offset_top = -12.0
+offset_right = 264.0
+offset_bottom = 197.0
+texture_normal = ExtResource("2_bqqt6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="TextureButton2" unique_id=289489964]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.26700002
+anchor_bottom = 0.21000001
+offset_left = 138.0
+offset_top = 72.0
+offset_right = 353.417
+offset_bottom = 105.11
+theme_override_font_sizes/font_size = 43
+text = "CONTROLS"
+
+[node name="TextureButton3" type="TextureButton" parent="." unique_id=309508143]
+layout_mode = 0
+offset_left = -292.0
+offset_top = 487.0
+offset_right = 257.0
+offset_bottom = 696.0
+texture_normal = ExtResource("2_bqqt6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="TextureButton3" unique_id=474374320]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.26700002
+anchor_bottom = 0.21000001
+offset_left = 147.0
+offset_top = 69.0
+offset_right = 362.417
+offset_bottom = 102.11
+theme_override_font_sizes/font_size = 43
+text = "QUIT"
+
+[node name="Label2" type="Label" parent="TextureButton3" unique_id=914343064]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.26700002
+anchor_bottom = 0.21000001
+offset_left = 2712.0
+offset_top = 555.0
+offset_right = 2927.417
+offset_bottom = 588.11
+theme_override_font_sizes/font_size = 43
+text = "START GAME"
+
+[node name="Label" type="Label" parent="." unique_id=1820515143]
+modulate = Color(0.47622865, 0.37528852, 0.06122739, 1)
+layout_mode = 0
+offset_left = -279.0
+offset_top = -556.0
+offset_right = 241.0
+offset_bottom = -426.0
+theme_override_font_sizes/font_size = 55
+text = "LEGION OF ANUBIS"

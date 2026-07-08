@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bifd7s5apaduf"]
+
+[node name="Roman soldier project" type="Node2D" unique_id=1193664620]
+position = Vector2(396, 373)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1670870420]
